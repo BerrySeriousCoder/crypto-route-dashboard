@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Loader } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -33,6 +34,11 @@ const LoginPage: React.FC = () => {
     }
   };
 
+  const handleDemoLogin = () => {
+    setEmail('demo@example.com');
+    setPassword('demo123');
+  };
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-muted/30 p-4">
       <div className="absolute inset-0 -z-10 h-full w-full bg-white [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)]"></div>
@@ -42,6 +48,19 @@ const LoginPage: React.FC = () => {
           <h1 className="text-4xl font-bold tracking-tight">CryptoRoute</h1>
           <p className="mt-2 text-muted-foreground">Welcome back! Log in to your account.</p>
         </div>
+
+        <Alert className="mb-4">
+          <AlertDescription>
+            <span className="font-semibold">Demo Mode:</span> Use email <span className="font-mono">demo@example.com</span> and password <span className="font-mono">demo123</span> to log in.
+            <Button 
+              variant="link" 
+              className="h-auto p-0 pl-1 font-semibold text-primary" 
+              onClick={handleDemoLogin}
+            >
+              Fill demo credentials
+            </Button>
+          </AlertDescription>
+        </Alert>
 
         <Card className="glass border-0">
           <CardHeader>

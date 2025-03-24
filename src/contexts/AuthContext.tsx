@@ -20,6 +20,10 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Demo mode credentials
+const DEMO_EMAIL = 'demo@example.com';
+const DEMO_PASSWORD = 'demo123';
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -47,6 +51,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
+      // Demo mode login bypass
+      if (email === DEMO_EMAIL && password === DEMO_PASSWORD) {
+        const demoUser = {
+          id: 'demo-user-id',
+          email: DEMO_EMAIL,
+          name: 'Demo User'
+        };
+        
+        // Store demo user in localStorage to persist across refreshes
+        localStorage.setItem('authToken', 'demo-token');
+        localStorage.setItem('user', JSON.stringify(demoUser));
+        
+        setUser(demoUser);
+        toast.success('Demo login successful');
+        navigate('/dashboard');
+        setIsLoading(false);
+        return;
+      }
+      
+      // Regular login flow
       const response = await authAPI.login(email, password);
       setUser(response.user);
       toast.success('Login successful');
